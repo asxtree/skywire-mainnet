@@ -1,0 +1,51 @@
+#!/bin/bash
+
+### SkyWire Start script, only node
+
+# local vars
+SKYWIRE_UNIX_SCRIPTS=/usr/local/skywire/go/src/github.com/asxtree/skywire-mainnet/systemd-scripts
+
+# check for the env vars
+if [ ! -f /etc/default/skywire ] ; then
+	# does not exist, link it
+	ln -s ${SKYWIRE_UNIX_SCRIPTS}/skywire.defaults /etc/default/skywire
+else
+	# check it, if not a link remove and link
+	if [ ! -h /etc/default/skywire ] ; then
+		# not a link, remove it and link
+		rm /etc/default/skywire
+		ln -s ${SKYWIRE_UNIX_SCRIPTS}/skywire.defaults /etc/default/skywire
+	fi
+fi 
+
+# now load it
+. /etc/default/skywire
+
+# check for temp dir to hold the pids
+if [[ ! -d ${TMP_DIR} ]] ; then
+	mkdir -p ${TMP_DIR}
+fi
+
+# Catch one optional argument: "yes" (to kill previous instances before start)
+[[ ! -z $1 ]] && Need_Kill=$1
+
+# kill previous instances before start is intructed to.
+if [ "$Need_Kill" == "yes" ] ; then
+	# only node
+	[[ -f ${TMP_DIR}/${Node_Pid_FILE} ]] && pkill -F "${TMP_DIR}/${Node_Pid_FILE}" && rm "${TMP_DIR}/${Node_Pid_FILE}"
+fi
+
+# check if we have the bins in place, otherwise compile it from source and if old bins are found remove them
+#command -v "${GOPATH}/bin/manager" && command -v "${GOPATH}/bin/node" && command -v "${GOPATH}/bin/socksc" && command -v "${GOPATH}/bin/sockss" && command -v "${GOPATH}/bin/sshc" && command -v "${GOPATH}/bin/sshs" > /dev/null || {
+#	  [[ -d ${GOPATH}/pkg/linux_arm64/github.com/skycoin ]] && rm -rf ${GOPATH}/pkg/linux_arm64/github.com/skycoin
+#			  cd ${GOPATH}/src/github.com/SkycoinProject/skywire/cmd
+#			  ${GOROOT}/bin/go install ./... 2>> /tmp/skywire_install_errors.log
+#}
+
+# start routine only node
+cd ${SKYWIRE_DIR}
+nohup ./skywire-visor  > /dev/null 2>&1  &
+echo $! > "${Node_Pid_FILE}"
+npid=`cat "${Node_Pid_FILE}"`
+echo "Skywire Node started, pid: $npid"
+cd /root
