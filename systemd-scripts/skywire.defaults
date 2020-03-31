@@ -21,9 +21,9 @@ SKYCOIN_DIR=${GOPATH}/src/github.com/asxtree
 SKYWIRE_DIR=${SKYCOIN_DIR}/skywire-mainnet
 SKYWIRE_STOP_CMD=${SKYWIRE_DIR}/static/script/stop
 SKYWIRE_START_CMD=${SKYWIRE_DIR}/static/script/start
-Web_Dir=${SKYWIRE_DIR}/static/skywire-manager
-SKYWIRE_GIT_URL="https://github.com/SkycoinProject/skywire.git"
-DISCOVERY_ADDR=testnet.skywire.skycoin.com:5999-028ec969bdeb92a1991bb19c948645ac8150468a6919113061899051409de3f243
+#Web_Dir=${SKYWIRE_DIR}/static/skywire-manager
+#SKYWIRE_GIT_URL="https://github.com/SkycoinProject/skywire.git"
+#DISCOVERY_ADDR=testnet.skywire.skycoin.com:5999-028ec969bdeb92a1991bb19c948645ac8150468a6919113061899051409de3f243
 
 # export them all
 export MANAGER_IP
@@ -38,6 +38,6 @@ export SKYCOIN_DIR
 export SKYWIRE_DIR
 export SKYWIRE_STOP_CMD
 export SKYWIRE_START_CMD
-export Web_Dir
-export SKYWIRE_GIT_URL
-export DISCOVERY_ADDR
+#export Web_Dir
+#export SKYWIRE_GIT_URL
+#export DISCOVERY_ADDR

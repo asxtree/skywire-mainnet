@@ -44,7 +44,7 @@ fi
 
 # start routine only node
 cd ${SKYWIRE_DIR}
-nohup ./skywire-visor  > /dev/null 2>&1  &
+nohup skywire-visor  > /dev/null 2>&1  &
 echo $! > "${Node_Pid_FILE}"
 npid=`cat "${Node_Pid_FILE}"`
 echo "Skywire Node started, pid: $npid"
