@@ -12,6 +12,9 @@ start() {
 		echo 'Hypervisor service is already running' >&2
 		return 1
 	fi
+  if [ -e $LOGFILE ]; then
+     echo 'Found old log file, removing it to clear space...'                                                                sudo rm -rf "${LOGFILE}"
+  fi
 		echo 'Starting the Hypervisor service…' >&2
 		cd /usr/bin/
 		nohup ./skywire-hypervisor -c "$HYPERVISOR_CONF" > "${LOGFILE}" 2>&1 &
